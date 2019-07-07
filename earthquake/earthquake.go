@@ -21,11 +21,11 @@ type (
 	}
 
 	GetApplicationInfoResponse struct {
-		Catalogs       []string `json:"catalogs"`
-		Contributors   []string `json:"contributors"`
-		EventTypes     []string `json:"eventtypes"`
-		MagnitudeTypes []string `json:"magnitudetypes"`
-		ProductTypes   []string `json:"producttypes"`
+		Catalogs       []Catalog       `json:"catalogs"`
+		Contributors   []Contributor   `json:"contributors"`
+		EventTypes     []EventType     `json:"eventtypes"`
+		MagnitudeTypes []MagnitudeType `json:"magnitudetypes"`
+		ProductTypes   []ProductType   `json:"producttypes"`
 	}
 
 	GetApplicationWADLResponse struct {
@@ -66,13 +66,13 @@ type (
 	}
 
 	GetCatalogsResponse struct {
-		XMLName xml.Name `xml:"Catalogs"`
-		Catalog []string `xml:"Catalog"`
+		XMLName  xml.Name  `xml:"Catalogs"`
+		Catalogs []Catalog `xml:"Catalog"`
 	}
 
 	GetContributorsResponse struct {
-		XMLName     xml.Name `xml:"Contributors"`
-		Contributor []string `xml:"Contributor"`
+		XMLName      xml.Name      `xml:"Contributors"`
+		Contributors []Contributor `xml:"Contributor"`
 	}
 
 	GetCountResponse struct {

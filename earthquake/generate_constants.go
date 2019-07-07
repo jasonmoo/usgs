@@ -23,6 +23,7 @@ var (
 func slug(s string) string {
 
 	rs := []rune(s)
+
 	for i, r := range rs {
 		if !unicode.IsLetter(r) && !unicode.IsDigit(r) {
 			rs[i] = '_'
@@ -39,23 +40,28 @@ func slug(s string) string {
 	rs[0] = unicode.ToUpper(rs[0])
 
 	var usi int
-	for i := 0; i < len(rs); i++ {
-		if rs[i] == '_' && usi == 0 {
+	for i := 1; i < len(rs); {
+		switch {
+		case rs[i] == '_' && usi == 0:
 			usi = i
-		} else if (unicode.IsLetter(rs[i]) || unicode.IsDigit(rs[i])) && usi > 0 {
+			i++
+		case rs[i] != '_' && usi > 0:
 			rs[i] = unicode.ToUpper(rs[i])
 			rs = append(rs[:usi], rs[i:]...)
 			usi = 0
+		default:
+			i++
 		}
 	}
 
 	s = string(rs)
 
-	if n, exists := slugs[s]; exists {
+	n, exists := slugs[s]
+	slugs[s]++
+	if exists {
 		s += strconv.Itoa(n)
 	}
 
-	slugs[s]++
 	return s
 
 }
@@ -66,11 +72,11 @@ const constantsTemplate = `package earthquake
 // DO NOT EDIT
 
 const (
-	{{ range $name := .Catalogs }}Catalog{{ slug $name }} Catalog = {{ printf "%q\n" $name }}{{ end }}
-	{{ range $name := .Contributors }}Contributor{{ slug $name }} Contributor = {{ printf "%q\n" $name }}{{ end }}
-	{{ range $name := .EventTypes }}EventType{{ slug $name }} EventType = {{ printf "%q\n" $name }}{{ end }}
-	{{ range $name := .MagnitudeTypes }}MagnitudeType{{ slug $name }} MagnitudeType = {{ printf "%q\n" $name }}{{ end }}
-	{{ range $name := .ProductTypes }}ProductType{{ slug $name }} ProductType = {{ printf "%q\n" $name }}{{ end }}
+	{{ range $name := .Catalogs }}{{ printf "Catalog_%s" $name | slug }} Catalog = {{ printf "%q\n" $name }}{{ end }}
+	{{ range $name := .Contributors }}{{ printf "Contributor_%s" $name | slug }} Contributor = {{ printf "%q\n" $name }}{{ end }}
+	{{ range $name := .EventTypes }}{{ printf "EventType_%s" $name | slug }} EventType = {{ printf "%q\n" $name }}{{ end }}
+	{{ range $name := .MagnitudeTypes }}{{ printf "MagnitudeType_%s" $name | slug }} MagnitudeType = {{ printf "%q\n" $name }}{{ end }}
+	{{ range $name := .ProductTypes }}{{ printf "ProductType_%s" $name | slug }} ProductType = {{ printf "%q\n" $name }}{{ end }}
 )
 `
 

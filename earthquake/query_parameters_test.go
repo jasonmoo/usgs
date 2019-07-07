@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func TestP(t *testing.T) {
+func TestQueryParameters(t *testing.T) {
 
 	qp := NewQueryParameters()
 

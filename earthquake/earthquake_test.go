@@ -53,7 +53,7 @@ func TestGetCatalogs(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if len(resp.Catalog) == 0 {
+	if len(resp.Catalogs) == 0 {
 		t.Errorf("expected resp.Catalogs, got none")
 	}
 }
@@ -63,7 +63,7 @@ func TestGetContributors(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if len(resp.Contributor) == 0 {
+	if len(resp.Contributors) == 0 {
 		t.Errorf("expected resp.Contributors, got none")
 	}
 }
